@@ -1,0 +1,168 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Advanced Docker - 2/5 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advanced-docker-2-5">
+<h1>Advanced Docker - <em>2/5</em><a class="headerlink" href="#advanced-docker-2-5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="use-a-working-directory">
+<h2>Use a working directory<a class="headerlink" href="#use-a-working-directory" title="Permalink to this headline">¶</a></h2>
+<p>Let’s create a working directory on your computer so that any work can be saved for later use.
+In this tutorial we’ll use a “mywork” directory inside your home dir. On your computer type:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="o">~</span><span class="sr">/mywork</span>
+</pre></div>
+</div>
+<p>Let’s download the material for this demo, the clas12tag repository. You do this on your machine (not inside docker).</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~</span><span class="sr">/mywork</span>
+<span class="sr">git clone https:/</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">gemc</span><span class="o">/</span><span class="n">clas12Tags</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Now let’s launch docker and mount this directory inside the jlab work dir. We do this by the <strong>-v</strong> option:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span>  <span class="o">-</span><span class="n">v</span> <span class="o">~</span><span class="sr">/mywork:/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="ss">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="selecting-an-experiment">
+<h2>Selecting an experiment<a class="headerlink" href="#selecting-an-experiment" title="Permalink to this headline">¶</a></h2>
+<p>By default, the docker gemc uses a default data directory inside the container, installed in /jlab/clas12Tags.</p>
+<p>We are going change that to use the clas12tags directory you just downloaded. In particular we want to point to the 4.3.1 tag release,
+which is not contained in tag 1.1.</p>
+<p>Inside your container let’s go to the mounted directory and set the env variable GEMC_DATA_DIR:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="no">GEMC_DATA_DIR</span><span class="o">=</span><span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span><span class="o">/</span><span class="n">clas12Tags</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>Before selecting one experiment let’s create a “clasdis” directory inside mywork and run clasdis to get 100 events:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="n">clasdis</span>
+<span class="n">cd</span> <span class="n">clasdis</span>
+<span class="n">clasdis</span> <span class="o">--</span><span class="n">trig</span> <span class="mi">100</span> <span class="o">--</span><span class="n">docker</span> <span class="o">--</span><span class="n">t</span> <span class="mi">10</span> <span class="mi">30</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">lrt</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>Let’s check the available gcards in the new 4.3.1 clas12tags directory:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span><span class="o">/</span><span class="n">clas12Tags</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">/*.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>We’re ready to select the RGB winter configuration (rgb-winter.gcard) and use the 100 events we just generated:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">gemc</span> <span class="o">-</span><span class="no">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span> <span class="o">-</span><span class="no">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, sidis.dat&quot;</span>  <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span><span class="o">/</span><span class="n">clas12Tags</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">rgb</span><span class="o">-</span><span class="n">winter</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>The above command take up to a minute to load the magnetic field and setup the necessary physics processes.
+You will see many warning messages while creating the tessellated geometry (due to non perfect cad import from engineering model).
+While gemc is running you will notice warnings, mostly related to potential geometry overlap.</p>
+<p><br></p>
+<p>To decode this output and prepare to run CLARA using 2 cores (use the createClaraCook.csh second option to change that):</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">evio2hipo</span> <span class="o">-</span><span class="n">r</span> <span class="mi">11</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span><span class="n">i</span> <span class="n">out</span><span class="o">.</span><span class="n">ev</span> <span class="o">-</span><span class="n">o</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span>
+<span class="n">createClaraCook</span><span class="o">.</span><span class="n">csh</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Then run reconstruction using clara:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">clara</span><span class="o">-</span><span class="n">shell</span> <span class="n">cook</span><span class="o">.</span><span class="n">clara</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>The output file is called <strong>out_gemc.hipo</strong>.
+Since we’re running in interactive mode, it contains all the banks (so it’s quite big) so we can enjoy the complete information from simulation and reconstruction.</p>
+<p>Run hipo-utils to check the bank information on the reconstructed file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hipo</span><span class="o">-</span><span class="n">utils</span> <span class="o">-</span><span class="n">stats</span> <span class="n">out_gemc</span><span class="o">.</span><span class="n">hipo</span>
+</pre></div>
+</div>
+<p>The CLARA log is created within the log directory, take a look.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p1.html"><img alt="../../_images/previous.png" class="align-left" src="../../_images/previous.png" /></a>
+<a class="reference external image-reference" href="p3.html"><img alt="../../_images/next.png" class="align-right" src="../../_images/next.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

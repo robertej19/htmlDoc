@@ -1,0 +1,101 @@
+:orphan:
+
+
+.. |br| raw:: html
+
+   <br>
+
+========================================================
+Submit a Job to OSG Tutorial - *2/4*
+========================================================
+
+
+
+|br|
+
+Example 1: Steering card for SIDIS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  group:  rga                   # project description
+  user:  mungaro                   # username
+  nevents: 100                     # number of events each job
+  generator: clasdis               # one of clasdis, dvcsgen, generate-dis
+  genOptions:  --t 15 20           # generator option
+  gcards: /jlab/work/clas12.gcard  # gcard
+  jobs: 1                          # number of jobs
+  project:  osg.clas12MC           # OSG project
+  luminosity:  0                   # percent of 10^35 luminosity from 0 to 100
+  tcurrent: -100                   # percent of torus current from -100 to 100
+  pcurrent: -100                   # percent of solenoid current from -100 to 100
+
+|br|
+
+Generator options
+^^^^^^^^^^^^^^^^^^^^
+
+SIDIS generator documentation: https://github.com/JeffersonLab/clasdis-nocernlib/blob/master/README.md
+
+Generator options can be added at "genOptions" at the scard.
+
+|br|
+
+Job submission
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Edit your scard as above and use the following command to submit one job of 100 SIDIS events with theta between 15 and 20 degrees.::
+
+  /group/clas12/offsite-simulations/submit.py -s scard.txt
+
+You can see the same output as the previous page but with following output at the bottom.::
+
+ Submitting job(s).....
+
+ 1 job(s) submitted to cluster 469403.
+
+
+
+|br|
+
+Log files
+^^^^^^^^^^^
+
+You should immediately see a log directory containing a file job.469403.0.log, where the number is the cluster id.
+
+When the job is completed the ".err" and ".out" files will appear as well.
+
+
+ |br|
+
+Output files
+^^^^^^^^^^^^^^^^^^^
+Upon completion, the various files created by the jobs will appear in an output directory (e.g. out_469403_n100):
+
+- generator file
+- gemc output
+- gemc decoded output
+- reconstructed output (with all the banks)
+- the steering card
+- the gcard
+
+ |br|
+
+
+Useful OSG commands
+^^^^^^^^^^^^^^^^^^^^
+
+ - condor_q: will list your jobs and their statuses.
+ - condor_q -better-analyze JOBID : will give more details.
+ - condor_rm JOBID : will kill the job
+
+
+|
+
+.. image:: ../previous.png
+	:target: 	p1.html
+	:align: left
+
+.. image:: ../next.png
+	:target: 	p3.html
+	:align: right

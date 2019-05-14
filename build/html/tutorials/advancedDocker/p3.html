@@ -1,0 +1,167 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Advanced Docker - 3/5 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advanced-docker-3-5">
+<h1>Advanced Docker - <em>3/5</em><a class="headerlink" href="#advanced-docker-3-5" title="Permalink to this headline">¶</a></h1>
+<p>Let’s now create a new gcard that is a copy of the RGA spring but has the following changes:</p>
+<ul class="simple">
+<li>the target is empty</li>
+<li>the FT configuration changes from ON to OFF</li>
+<li>the FMT is removed</li>
+</ul>
+<p>While still inside mywork/clasdis, let’s copy the rga-fall.gcard to a my.gcard:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span><span class="o">/</span><span class="n">clas12Tags</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">rga</span><span class="o">-</span><span class="n">spring</span><span class="o">.</span><span class="n">gcard</span> <span class="n">my</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p><br></p>
+<div class="section" id="changing-the-target">
+<h2>Changing the target<a class="headerlink" href="#changing-the-target" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s change the target to empty in “my.gcard”. We can achieve this by adding this line just under the target directives:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">option</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;SWITCH_MATERIALTO&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;G4_lH2, G4_Galactic&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>This is the current way of changing the target cell material to vacuum.
+Note that if we want to change the target cell to LD2, can can use variations instead:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;experiments/clas12/targets/target&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;TEXT&quot;</span> <span class="n">variation</span><span class="o">=</span><span class="s2">&quot;lD2&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>What other targets are available?</p>
+<ul class="simple">
+<li>Starting with 4.3.0 the polarized target, with elements imported from cad, is available,</li>
+<li>Starting with 4.3.1 the solid targets, with elements imported from cad, are available with these variations:  “12C”, “63Cu”, “118Sn”, “208Pb”, “27Al”.</li>
+</ul>
+<p>Details instructions on how to switch targets will be on the <a class="reference external" href="https://github.com/gemc/clas12Tags">clas12tags</a> page.</p>
+<p><br></p>
+</div>
+<div class="section" id="changing-beamline-configuration">
+<h2>Changing beamline configuration<a class="headerlink" href="#changing-beamline-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Change the following lines in “my.gcard”</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;ft&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;TEXT&quot;</span> <span class="n">variation</span><span class="o">=</span><span class="s2">&quot;FTOn&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;beamline&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;TEXT&quot;</span> <span class="n">variation</span><span class="o">=</span><span class="s2">&quot;FTOn&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;cadBeamline/&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;CAD&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>to:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;ft&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;TEXT&quot;</span> <span class="n">variation</span><span class="o">=</span><span class="s2">&quot;FTOff&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;beamline&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;TEXT&quot;</span> <span class="n">variation</span><span class="o">=</span><span class="s2">&quot;FTOff&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;cadBeamlineFTOFF/&quot;</span> <span class="n">factory</span><span class="o">=</span><span class="s2">&quot;CAD&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="removing-the-fmt">
+<h2>Removing the FMT<a class="headerlink" href="#removing-the-fmt" title="Permalink to this headline">¶</a></h2>
+<p>To remove the Forward Micromegas Tracker we can remove its geant4 mother volume, called “FMT” by adding these lines in “my.gcard”</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">detector</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;FMT&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">existence</span> <span class="n">exist</span><span class="o">=</span><span class="s2">&quot;no&quot;</span> <span class="sr">/&gt;</span>
+<span class="sr">&lt;/</span><span class="n">detector</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="run-my-gcard">
+<h2>Run my.gcard<a class="headerlink" href="#run-my-gcard" title="Permalink to this headline">¶</a></h2>
+<p>We can run the same 100 clasdis events through my.gcard. I do suggest to change the output filename:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">option</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;OUTPUT&quot;</span>   <span class="n">value</span><span class="o">=</span><span class="s2">&quot;evio, myout.ev&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>To run gemc using the same generated events:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">gemc</span> <span class="o">-</span><span class="no">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span> <span class="o">-</span><span class="no">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, sidis.dat&quot;</span>  <span class="n">my</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p2.html"><img alt="../../_images/previous.png" class="align-left" src="../../_images/previous.png" /></a>
+<a class="reference external image-reference" href="p4.html"><img alt="../../_images/next.png" class="align-right" src="../../_images/next.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

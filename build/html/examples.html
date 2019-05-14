@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Batch mode &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Production (currently 1.1)" href="tags/tags.html" />
+    <link rel="prev" title="Quickstart: Docker" href="index.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="index.html">       home</a>&nbsp;|
+			<a href="#">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="batch-mode">
+<span id="runninggemcbatch"></span><h1>Batch mode<a class="headerlink" href="#batch-mode" title="Permalink to this headline">¶</a></h1>
+<p>Use the following command to open a bash session on the container (the first time you run this it will also download it). You can also replace bash with tcsh:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>This will open a bash session in the /jlab/workdir directory.</p>
+<p><br></p>
+</div>
+<div class="section" id="mounting-your-directories-to-the-container">
+<span id="runninggemcmount"></span><h1>Mounting your directories to the container<a class="headerlink" href="#mounting-your-directories-to-the-container" title="Permalink to this headline">¶</a></h1>
+<p>The container will always start with the “pristine” image. In other words every work the the container filesystem will be lost when you exit docker.
+You can use the option:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">host</span><span class="o">/</span><span class="n">directory</span><span class="p">:</span><span class="o">/</span><span class="n">container</span><span class="o">/</span><span class="n">directory</span>
+</pre></div>
+</div>
+<p>to mount your local OS directories to be visible in docker. For example, to mount the “maximilian” home directory in a /max dir in the container:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span>  <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="nb">max</span><span class="p">:</span><span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="nb">max</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p><em>/jlab/work//max</em> will now point to maximilian home dir. You can save work here.</p>
+<p><br></p>
+</div>
+<div class="section" id="graphic-mode-browser">
+<span id="runninggemcwithgraphicbrowser"></span><h1>Graphic mode (<strong>browser</strong>)<a class="headerlink" href="#graphic-mode-browser" title="Permalink to this headline">¶</a></h1>
+<p>Use the following command to pass the 6080 port to noVnc so the container can be opened on a brower:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6080</span><span class="p">:</span><span class="mi">6080</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span>
+</pre></div>
+</div>
+<p>Using your web brower open the page:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">6080</span>
+</pre></div>
+</div>
+<p>After clicking connect the linux desktop is shown with a running shell.|br| <br></p>
+<p><br> <br></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>I suggest to set the noVNC settings as follows:</p>
+<ul class="last simple">
+<li>Scaling mode: remote</li>
+<li>Share mode active (this will ensure if you open another browser session, it will show the same instance of the container)</li>
+<li>On the docker preferences try to make available as much memory as possible.</li>
+</ul>
+</div>
+<p><br> <br></p>
+<p>You can stop the docker container at any time with CTRL-C</p>
+<p><br></p>
+</div>
+<div class="section" id="graphic-mode-vnc">
+<span id="runninggemcwithgraphicvnc"></span><h1>Graphic mode (<strong>vnc</strong>)<a class="headerlink" href="#graphic-mode-vnc" title="Permalink to this headline">¶</a></h1>
+<p>Use the following command to pass the 5901 and the 6080 ports necessary to open the container with a vnc client:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span>  <span class="o">-</span><span class="n">p</span> <span class="mi">6080</span><span class="p">:</span><span class="mi">6080</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5901</span><span class="p">:</span><span class="mi">5901</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span>
+</pre></div>
+</div>
+<p>You can now open localhost:5901 with your vnc client.</p>
+<p><br></p>
+</div>
+<div class="section" id="native-interactive-mode-no-opengl">
+<span id="runninggemcwithgraphicinteractive"></span><h1><strong>Native interactive</strong> mode (no opengl)<a class="headerlink" href="#native-interactive-mode-no-opengl" title="Permalink to this headline">¶</a></h1>
+<p>On a mac, if you allow access from localhost with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1. Activate the option ‘Allow connections from network clients’ in XQuartz settings
+   (Restart XQuartz (to activate the setting)
+2. xhost +127.0.0.1
+</pre></div>
+</div>
+<p>Then you can run docker and use the local X server with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="n">docker</span><span class="o">.</span><span class="k">for</span><span class="o">.</span><span class="n">mac</span><span class="o">.</span><span class="n">localhost</span><span class="p">:</span><span class="mi">0</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>You can run gemc in batch mode this way, but still enjoy the ability to open windows on the local host.</p>
+<p>The interactive mode is slower than the browser or the vnc mode. I suggest you only use interactive when you want
+to visualize a subset of the CLAS12 detectors, not all of them.</p>
+<p><br></p>
+</div>
+<div class="section" id="generators">
+<span id="runninggemcgenerator"></span><h1>Generators<a class="headerlink" href="#generators" title="Permalink to this headline">¶</a></h1>
+<p>Run the container in batch mode (substitute the max’s path with your home dir path)</p>
+<blockquote>
+<div>docker run -it –rm  -v /home/max:/jlab/work/max jeffersonlab/clas12simulations:iprod bash</div></blockquote>
+<div class="section" id="use-the-internal-generator">
+<h2>Use the internal generator<a class="headerlink" href="#use-the-internal-generator" title="Permalink to this headline">¶</a></h2>
+<p>Use the clas12.gcard in /jlab/workdir to launch gemc. For example, to run 200 events in batch mode using 4 GeV electrons at theta=20 degrees and phi=5 degrees:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gemc</span> <span class="o">-</span><span class="n">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, dvcs.lund&quot;</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">200</span> <span class="o">-</span><span class="n">BEAM_P</span><span class="o">=</span><span class="s2">&quot;e-, 4*GeV, 20*deg, 5*deg&quot;</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="use-a-lund-generated-file">
+<h2>Use a LUND generated file<a class="headerlink" href="#use-a-lund-generated-file" title="Permalink to this headline">¶</a></h2>
+<p>Use the clas12.gcard in /jlab/workdir to launch gemc. For example, to run 200 events in batch mode using
+generated events in a <a class="reference external" href="https://gemc.jlab.org/gemc/html/documentation/generator/lund.html">lund file</a> in the local directory /home/max (mounted in /jlab/work/max):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="nb">max</span>
+<span class="n">gemc</span> <span class="o">-</span><span class="n">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, dvcs.lund&quot;</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">200</span> <span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">clas12</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p>This will produce an output with 200 generated events in evio format.</p>
+<p><br></p>
+</div>
+</div>
+<div class="section" id="convert-gemc-evio-output-to-hipo">
+<span id="runningevio2hipoexample"></span><h1>Convert GEMC evio output to hipo<a class="headerlink" href="#convert-gemc-evio-output-to-hipo" title="Permalink to this headline">¶</a></h1>
+<p>Use evio2hipo to convert the gemc output into hipo.</p>
+<p>Notice that the field maps scaling are -1 for standard gcard settings, but make sure you match the values if you are not using the provided gcard:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">evio2hipo</span> <span class="o">-</span><span class="n">r</span> <span class="mi">11</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">-</span><span class="n">i</span> <span class="n">out</span><span class="o">.</span><span class="n">ev</span> <span class="o">-</span><span class="n">o</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Tours: -1 = inbending electrons</li>
+<li>Solenoid -1: = field points upstream</li>
+<li>Run geometry 11: = default simulation geometry run number</li>
+</ul>
+<p><br></p>
+</div>
+<div class="section" id="reconstruction">
+<span id="runningcoatjaveexample"></span><h1>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this headline">¶</a></h1>
+<p>Use the script “createCookClara” in your path to setup the input file, output directory and (optional) the number of threads:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">createClaraCook</span><span class="o">.</span><span class="n">csh</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>This will create the setup file “cook.clara”.</p>
+<p>Then run clara-shell to launch reconstruction:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clara</span><span class="o">-</span><span class="n">shell</span> <span class="n">cook</span><span class="o">.</span><span class="n">clara</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

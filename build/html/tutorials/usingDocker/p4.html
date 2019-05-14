@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CLAS12 Docker Tutorial - 4/10 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clas12-docker-tutorial-4-10">
+<h1>CLAS12 Docker Tutorial  - <em>4/10</em><a class="headerlink" href="#clas12-docker-tutorial-4-10" title="Permalink to this headline">¶</a></h1>
+<p>Inside $CLAS12_BIN (which is in your path) we have three executables. Type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ls $CLAS12_BIN/
+</pre></div>
+</div>
+<p>to list them.</p>
+<ul class="simple">
+<li>clasdis: <a class="reference external" href="https://github.com/JeffersonLab/clasdis-nocernlib/blob/master/README.md">a SIDIS generatoron based on PEPSI LUND MC</a>.</li>
+<li>dvcsgen: <a class="reference external" href="https://github.com/JeffersonLab/dvcsgen/blob/master/README.md">dvcs/pi0/eta generator using pdfs and gpds</a>.</li>
+<li>generate-dis: <a class="reference external" href="https://github.com/JeffersonLab/inclusive-dis-rad/blob/master/README.md">inclusive DIS generator with radiative corrections</a>.</li>
+</ul>
+<p><br></p>
+<div class="section" id="run-the-clasdis-generator">
+<h2>Run the CLASDIS generator<a class="headerlink" href="#run-the-clasdis-generator" title="Permalink to this headline">¶</a></h2>
+<p>Let’s create a “clasdis” directory inside mywork and run clasdis to get 1000 events:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="n">clasdis</span>
+<span class="n">cd</span> <span class="n">clasdis</span>
+<span class="n">clasdis</span> <span class="o">--</span><span class="n">trig</span> <span class="mi">1000</span> <span class="o">--</span><span class="n">docker</span> <span class="o">--</span><span class="n">t</span> <span class="mi">25</span> <span class="mi">35</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">lrt</span>
+</pre></div>
+</div>
+<p>You should see the newly LUND file: <strong>sidis.dat</strong></p>
+<p>The LUND format is described <a class="reference external" href="https://gemc.jlab.org/gemc/html/documentation/generator/lund.html">here</a>.</p>
+<p><br></p>
+<p>Notice each event contains many particles but only <strong>type 1</strong> particles will be generated and tracked by geant4. <strong>type</strong> is the third column in the particle information.</p>
+<p><br></p>
+</div>
+<div class="section" id="run-gemc-on-sidis-dat">
+<h2>Run GEMC on sidis.dat<a class="headerlink" href="#run-gemc-on-sidis-dat" title="Permalink to this headline">¶</a></h2>
+<p>Before running gemc, let’s take a look at the gcard:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">clas12</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p>It contains the first experiment detectors, options for magnetic fields, etc.</p>
+<p><br></p>
+<p>Let’s run gemc on 200 of those generated events inside sidis.dat:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">gemc</span> <span class="o">-</span><span class="no">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">200</span> <span class="o">-</span><span class="no">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, sidis.dat&quot;</span>  <span class="sr">/jlab/</span><span class="n">work</span><span class="o">/</span><span class="n">clas12</span><span class="o">.</span><span class="n">gcard</span>
+</pre></div>
+</div>
+<p>The above command take up to a minute to load the magnetic field and setup the necessary physics processes.
+You will see many warning messages while creating the tessellated geometry (due to non perfect cad import from engineering model).</p>
+<p>After the physics tables are setup each event will take between 500 to 1000 ms, depending on the speed of your computer.</p>
+<p>While gemc is running you will notice a lot of these warnings:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>*** G4Exception : GeomNav1002
+               issued by : G4Navigator::ComputeStep()
+Track stuck or not moving.
+         Track stuck, not moving for 10 steps
+         in volume -fc- at point (-68.61918500868757,-2456.519110449012,5124.921251660378)
+         direction: (0.2126864369939486,-0.8061501170556744,0.5521652545116739)
+         Potential geometry or navigation problem !
+         Trying pushing it of 1e-07 mm ...Potential overlap in geometry!
+</pre></div>
+</div>
+<p>While these are very annoying, they are harmless. There is still some small geometry overlap for some small passive volumes,
+and the tessellation of cad import is not perfect. We’ll fix these warnings with time… or we’ll silence them.</p>
+<p>Upon exit gemc will inform you on the the processing time. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">Total</span> <span class="n">gemc</span> <span class="n">time</span><span class="p">:</span> <span class="mf">203.73</span> <span class="n">seconds</span><span class="o">.</span>  <span class="n">Events</span> <span class="n">only</span> <span class="n">time</span><span class="p">:</span> <span class="mf">138.181</span> <span class="n">seconds</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>The file out.ev is now ready to be analyzed. If you’re curious, you can use evio2xml to peek inside:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[root@9a5bf4e761b4 clasdis]# evio2xml out.ev | more
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;evio-data&gt;
+&lt;!-- ===================== Buffer 1 contains 1637 words (6548 bytes) ===================== --&gt;
+&lt;event format=&quot;evio&quot; count=&quot;1&quot; content=&quot;bank&quot; data_type=&quot;0xe&quot; tag=&quot;5&quot; padding=&quot;0&quot; num=&quot;0&quot; length=&quot;1636&quot; ndata=&quot;1635&quot;&gt;
+&lt;bank content=&quot;string&quot; data_type=&quot;0x3&quot; tag=&quot;5&quot; padding=&quot;0&quot; num=&quot;1&quot; length=&quot;1634&quot; ndata=&quot;1&quot;&gt;
+&lt;![CDATA[FMT:   is loaded with factory na, variation main and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/beamline/beamline:   is loaded with factory TEXT, variation FTOn and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/beamline/cadBeamline/:   is loaded with factory CAD, variation main and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/beamline/vacuumLine/:   is loaded with factory CAD, variation main and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/bst/bst:   is loaded with factory TEXT, variation java and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/bstShield/bstShield:   is loaded with factory TEXT, variation w51 and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/cnd/cnd:   is loaded with factory TEXT, variation original and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/ctof/ctof:   is loaded with factory TEXT, variation cad and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/ctof/javacad/:   is loaded with factory CAD, variation main and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/dc/dc:   is loaded with factory TEXT, variation java and run number 11  ]]&gt;
+&lt;![CDATA[experiments/clas12/ec/ec:   is loaded with factory TEXT, variation java and run number 11  ]]&gt;
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p3.html"><img alt="../../_images/previous2.png" class="align-left" src="../../_images/previous2.png" /></a>
+<a class="reference external image-reference" href="p5.html"><img alt="../../_images/next2.png" class="align-right" src="../../_images/next2.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

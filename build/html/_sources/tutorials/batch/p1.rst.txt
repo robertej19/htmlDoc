@@ -1,0 +1,111 @@
+:orphan:
+
+
+.. |br| raw:: html
+
+   <br>
+
+============================
+Submit a job to OSG Tutorial
+============================
+
+In this tutorial you will learn how to submit a single job to OSG with the possibility to choose among 3 generators and the number of events for the job.
+
+In a few weeks this will be expanded to an arbitrary number of jobs, and the possibility to use the same steering card to submit jobs using SLURM at Jlab or other facilities.
+
+
+
+
+|br|
+
+The Steering Card
+^^^^^^^^^^^^^^^^^
+
+The current version of the steering card:
+
+|br|
+
+.. figure:: sc.png
+	:width: 80%
+	:align: center
+
+
+|br|
+
+The OSG node
+^^^^^^^^^^^^
+
+Login to the OSG Jefferson lab node and create a work directory::
+
+ ssh scosg16.jlab.org
+ cd
+ mkdir osg
+ cd osg
+
+
+This node is used to submit jobs to OSG, give input files if necessary, and retrieve the output files.
+
+Copy the default steering card::
+
+ cp /group/clas12/clas12simulations/scard.txt .
+
+This is all you need to submit jobs. Only edit the first two lines this this demo. More functionality will be working soon.
+Ready? Let's do it::
+
+ /group/clas12/clas12simulations/submit.csh scard.txt
+
+|br|
+
+You should have an output like this::
+
+ Generator command: clasdis --trig 100 --docker --t 20 25 with output:sidis.dat
+
+ GEMC command: gemc -USE_GUI=0 -N=100 -INPUT_GEN_FILE="lund, sidis.dat"with output:  out.ev
+
+ Decoder output:  gemc.hipo
+
+ Reconstruction output:  out_gemc.hipo
+
+ Submitting job(s).
+ 1 job(s) submitted to cluster 469403.
+
+|br|
+
+You should immediately see a log directory containing a file job.469403.0.log, where the number is the job id.
+When the job is completed the ".err" and ".out" files will appear as well.
+
+|br|
+
+Upon completion, the various files created by the jobs will appear in your working directory:
+
+- generator file
+- gemc output
+- gemc decoded output
+- reconstructed output (will all the banks)
+
+
+|br|
+
+
+Useful OSG commands
+^^^^^^^^^^^^^^^^^^^^
+
+
+- condor_q: will list your jobs and their statuses.
+- condor_q -better-analyze JOBID : will give more details.
+- condor_rm JOBID : will kill the job
+
+
+
+
+
+|br|
+
+
+
+
+
+
+
+
+

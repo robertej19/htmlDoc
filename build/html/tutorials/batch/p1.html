@@ -1,0 +1,161 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Submit a job to OSG Tutorial &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="submit-a-job-to-osg-tutorial">
+<h1>Submit a job to OSG Tutorial<a class="headerlink" href="#submit-a-job-to-osg-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial you will learn how to submit a single job to OSG with the possibility to choose among 3 generators and the number of events for the job.</p>
+<p>In a few weeks this will be expanded to an arbitrary number of jobs, and the possibility to use the same steering card to submit jobs using SLURM at Jlab or other facilities.</p>
+<p><br></p>
+<div class="section" id="the-steering-card">
+<h2>The Steering Card<a class="headerlink" href="#the-steering-card" title="Permalink to this headline">¶</a></h2>
+<p>The current version of the steering card:</p>
+<p><br></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/sc.png"><img alt="../../_images/sc.png" src="../../_images/sc.png" style="width: 80%;" /></a>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="the-osg-node">
+<h2>The OSG node<a class="headerlink" href="#the-osg-node" title="Permalink to this headline">¶</a></h2>
+<p>Login to the OSG Jefferson lab node and create a work directory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">scosg16</span><span class="o">.</span><span class="n">jlab</span><span class="o">.</span><span class="n">org</span>
+<span class="n">cd</span>
+<span class="n">mkdir</span> <span class="n">osg</span>
+<span class="n">cd</span> <span class="n">osg</span>
+</pre></div>
+</div>
+<p>This node is used to submit jobs to OSG, give input files if necessary, and retrieve the output files.</p>
+<p>Copy the default steering card:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">/</span><span class="n">group</span><span class="o">/</span><span class="n">clas12</span><span class="o">/</span><span class="n">clas12simulations</span><span class="o">/</span><span class="n">scard</span><span class="o">.</span><span class="n">txt</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>This is all you need to submit jobs. Only edit the first two lines this this demo. More functionality will be working soon.
+Ready? Let’s do it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">group</span><span class="o">/</span><span class="n">clas12</span><span class="o">/</span><span class="n">clas12simulations</span><span class="o">/</span><span class="n">submit</span><span class="o">.</span><span class="n">csh</span> <span class="n">scard</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>You should have an output like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Generator</span> <span class="n">command</span><span class="p">:</span> <span class="n">clasdis</span> <span class="o">--</span><span class="n">trig</span> <span class="mi">100</span> <span class="o">--</span><span class="n">docker</span> <span class="o">--</span><span class="n">t</span> <span class="mi">20</span> <span class="mi">25</span> <span class="k">with</span> <span class="n">output</span><span class="p">:</span><span class="n">sidis</span><span class="o">.</span><span class="n">dat</span>
+
+<span class="n">GEMC</span> <span class="n">command</span><span class="p">:</span> <span class="n">gemc</span> <span class="o">-</span><span class="n">USE_GUI</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span> <span class="o">-</span><span class="n">INPUT_GEN_FILE</span><span class="o">=</span><span class="s2">&quot;lund, sidis.dat&quot;</span><span class="k">with</span> <span class="n">output</span><span class="p">:</span>  <span class="n">out</span><span class="o">.</span><span class="n">ev</span>
+
+<span class="n">Decoder</span> <span class="n">output</span><span class="p">:</span>  <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span>
+
+<span class="n">Reconstruction</span> <span class="n">output</span><span class="p">:</span>  <span class="n">out_gemc</span><span class="o">.</span><span class="n">hipo</span>
+
+<span class="n">Submitting</span> <span class="n">job</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">job</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">submitted</span> <span class="n">to</span> <span class="n">cluster</span> <span class="mf">469403.</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>You should immediately see a log directory containing a file job.469403.0.log, where the number is the job id.
+When the job is completed the “.err” and “.out” files will appear as well.</p>
+<p><br></p>
+<p>Upon completion, the various files created by the jobs will appear in your working directory:</p>
+<ul class="simple">
+<li>generator file</li>
+<li>gemc output</li>
+<li>gemc decoded output</li>
+<li>reconstructed output (will all the banks)</li>
+</ul>
+<p><br></p>
+</div>
+<div class="section" id="useful-osg-commands">
+<h2>Useful OSG commands<a class="headerlink" href="#useful-osg-commands" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>condor_q: will list your jobs and their statuses.</li>
+<li>condor_q -better-analyze JOBID : will give more details.</li>
+<li>condor_rm JOBID : will kill the job</li>
+</ul>
+<p><br></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

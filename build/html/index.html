@@ -1,0 +1,187 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quickstart: Docker &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Batch mode" href="examples.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="#">       home</a>&nbsp;|
+			<a href="examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p><br></p>
+<p>The CLAS12 software packages are distributed using docker images.</p>
+<div class="section" id="quickstart-docker">
+<h1>Quickstart: Docker<a class="headerlink" href="#quickstart-docker" title="Permalink to this headline">¶</a></h1>
+<p>Use the following command to run the clas12 software image:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="quickstart-submit-jobs-to-osg">
+<h1>Quickstart: Submit Jobs to OSG<a class="headerlink" href="#quickstart-submit-jobs-to-osg" title="Permalink to this headline">¶</a></h1>
+<p>Login to scosg16 and copy the steering card template somewhere you can edit:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">scosg16</span><span class="o">.</span><span class="n">jlab</span><span class="o">.</span><span class="n">org</span>
+<span class="n">cp</span> <span class="o">/</span><span class="n">group</span><span class="o">/</span><span class="n">clas12</span><span class="o">/</span><span class="n">offsite</span><span class="o">-</span><span class="n">simulations</span><span class="o">/</span><span class="n">scard</span><span class="o">.</span><span class="n">txt</span> <span class="o">.</span>
+<span class="n">EDIT</span> <span class="n">FILE</span>
+</pre></div>
+</div>
+<p>Run submit.py with -s option to submit jobs to OSG:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">group</span><span class="o">/</span><span class="n">clas12</span><span class="o">/</span><span class="n">offsite</span><span class="o">-</span><span class="n">simulations</span><span class="o">/</span><span class="n">submit</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">s</span> <span class="n">scard</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="container-content">
+<h1>Container content<a class="headerlink" href="#container-content" title="Permalink to this headline">¶</a></h1>
+<p>The clas12simulations docker image contains:</p>
+<ul class="simple">
+<li>“deep” generators: generate-dis, dvcsgen generator executables</li>
+<li>gemc with the clas12 geometry</li>
+<li>CLARA</li>
+<li>Coatjava</li>
+<li>the <em>CLAS12_BIN</em>, <em>CLAS12_LIB</em>, <em>CLAS12_INC</em> dirs and environment variables</li>
+</ul>
+<p>For the packages version check the <a class="reference internal" href="tags/tags.html#tags"><span class="std std-ref">tags</span></a> page.</p>
+<p><br></p>
+</div>
+<div class="section" id="howtos">
+<h1>HowTos<a class="headerlink" href="#howtos" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Batch mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#mounting-your-directories-to-the-container">Mounting your directories to the container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#graphic-mode-browser">Graphic mode (<strong>browser</strong>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#graphic-mode-vnc">Graphic mode (<strong>vnc</strong>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#native-interactive-mode-no-opengl"><strong>Native interactive</strong> mode (no opengl)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#generators">Generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#convert-gemc-evio-output-to-hipo">Convert GEMC evio output to hipo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html#reconstruction">Reconstruction</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="tags">
+<h1>Tags<a class="headerlink" href="#tags" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tags/tags.html">Production (currently 1.2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tags/tags.html#id1">1.1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tags/tags.html#id3">1.0</a></li>
+</ul>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://techoverflow.net/2017/03/01/solving-docker-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket/">Linux: Solving Docker permission denied while trying to connect to the Docker daemon socket</a></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+			<br> <br>
+
+			<!--
+		 -->
+			<h3>Tutorials<br></h3>
+			<a href="tutorials/usingDocker/p1.html">Basic Docker</a><br>
+			<a href="tutorials/advancedDocker/p1.html">Advanced Docker</a><br>
+			<a href="tutorials/subMit/p1.html">SubMit jobs to OSG</a><br>
+			<br>
+
+			<br>
+			<h3>Software Homes<br></h3>
+			<a href="https://claraweb.jlab.org/clara/"> CLARA</a><br>
+			<a href="http://gemc.jlab.org">    gemc</a><br>
+			<br>
+			
+			<br>
+			<h3>Email Support<br></h3>
+			<li><a href="mailto:gurjyan@jlab.org?subject=About%20CLARA">CLARA</a></li>
+			<li><a href="mailto:ziegler@jlab.org?subject=About%20Reconstruction">CLAS12 Reconstruction</a></li>
+			<li><a href="mailto:ungaro@jlab.org?subject=About%20gemc">gemc</a></li>
+			<li><a href="mailto:ungaro@jlab.org?subject=About%20docker">this page</></li>
+
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

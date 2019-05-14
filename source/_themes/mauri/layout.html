@@ -1,0 +1,104 @@
+{#
+magogo/layout.html
+~~~~~~~~~~~~~~~~~
+Adapted from Agogo style
+#}
+{%- extends "basic/layout.html" %}
+
+{% block header %}
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		
+		{%- block headertitle %}
+		<div class="headertitle"> {{_('CLAS12 Simulation Software Distribution') }} </div>
+		{%- endblock %}
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			{% block rootrellink %}
+			<a href="{{ pathto('index') }}">       home</a>&nbsp;|
+			<a href="{{ pathto('examples') }}">    examples</a>&nbsp;
+			{% endblock %}
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			{%- block document %}
+			{{ super() }}
+			{%- endblock %}
+		</div>
+		<div class="sidebar">
+			{%- block sidebarsearch %}
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">{{ _('Search') }}</h3>
+				<form class="search" action="{{ pathto('search') }}" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="{{ _('Go') }}" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				{{ _('Search within this website.') }}
+				</p>
+			</div>
+			
+			{%- endblock %}
+			<br>
+			
+			<br>
+			{%- block latestnews %}
+			{% if pagename == 'index' %}
+			<br> <br>
+
+			<!--
+		 -->
+			<h3>{{ _('Tutorials') }}<br></h3>
+			<a href="tutorials/usingDocker/p1.html">Basic Docker</a><br>
+			<a href="tutorials/advancedDocker/p1.html">Advanced Docker</a><br>
+			<a href="tutorials/subMit/p1.html">SubMit jobs to OSG</a><br>
+			<br>
+
+			<br>
+			<h3>{{ _('Software Homes') }}<br></h3>
+			<a href="https://claraweb.jlab.org/clara/"> CLARA</a><br>
+			<a href="http://gemc.jlab.org">    gemc</a><br>
+			<br>
+			
+			<br>
+			<h3>{{ _('Email Support') }}<br></h3>
+			<li><a href="mailto:gurjyan@jlab.org?subject=About%20CLARA">CLARA</a></li>
+			<li><a href="mailto:ziegler@jlab.org?subject=About%20Reconstruction">CLAS12 Reconstruction</a></li>
+			<li><a href="mailto:ungaro@jlab.org?subject=About%20gemc">gemc</a></li>
+			<li><a href="mailto:ungaro@jlab.org?subject=About%20docker">this page</></li>
+
+			{% endif %}
+						
+			
+			
+			{%- endblock %}
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			{{ _('2019 Page Maintained by Maurizio Ungaro') }}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block relbar1 %}{% endblock %}
+{% block relbar2 %}{% endblock %}

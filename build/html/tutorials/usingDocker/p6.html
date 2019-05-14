@@ -1,0 +1,164 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CLAS12 Docker Tutorial - 6/10 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clas12-docker-tutorial-6-10">
+<h1>CLAS12 Docker Tutorial  - <em>6/10</em><a class="headerlink" href="#clas12-docker-tutorial-6-10" title="Permalink to this headline">¶</a></h1>
+<p>Let’s exercise that the work is saved in a local directory, and we can exit docker and restart work when we run it again.
+Exit docker by typing <em>exit</em> and let’s learn how to run docker interactively.</p>
+<div class="section" id="run-docker-interactively-mac">
+<h2>Run docker interactively (Mac)<a class="headerlink" href="#run-docker-interactively-mac" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Open the XQuartz app and go to preferences and activate the option ‘Allow connections from network clients’ in XQuartz settings.</p>
+</li>
+<li><p class="first">From any terminal:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">defaults</span> <span class="n">write</span> <span class="n">org</span><span class="o">.</span><span class="n">macosforge</span><span class="o">.</span><span class="n">xquartz</span><span class="o">.</span><span class="n">X11</span> <span class="n">enable_iglx</span> <span class="o">-</span><span class="nb">bool</span> <span class="n">true</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The first action will allow XQuartz to receive display messages from network clients, such as docker.</p>
+<p>The second command will be useful when running gemc: it will allow OPENGL to use your graphic card.</p>
+<p><br></p>
+<p>Restart XQuartz to activate these changes.</p>
+<p><br></p>
+<p>Finally, add your localhost to the list of accepted X11 connections:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xhost</span> <span class="o">+</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>You should be able now to run docker and use the native X server to open windows application. From now on, this is the command to use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">mywork</span><span class="p">:</span><span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="n">docker</span><span class="o">.</span><span class="k">for</span><span class="o">.</span><span class="n">mac</span><span class="o">.</span><span class="n">localhost</span><span class="p">:</span><span class="mi">0</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>That’s a loooooong command isn’t it? Good thing you can copy and paste it.</p>
+<p><br></p>
+</div>
+<div class="section" id="run-docker-interactively-linux">
+<h2>Run docker interactively (Linux)<a class="headerlink" href="#run-docker-interactively-linux" title="Permalink to this headline">¶</a></h2>
+<p>Add your localhost to the list of accepted X11 connections:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xhost</span> <span class="o">+</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Export the env variable DISPLAY:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Run the command using your local x11 tmp dir:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY  jeffersonlab/clas12simulations:iprod /bin/bash
+</pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="section" id="use-x11-on-a-browser">
+<h2>Use X11 on a browser<a class="headerlink" href="#use-x11-on-a-browser" title="Permalink to this headline">¶</a></h2>
+<p>If the above does not work, we can always open a X session using the browser.</p>
+<p>The command is now:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">mywork</span><span class="p">:</span><span class="o">/</span><span class="n">jlab</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">mywork</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6080</span><span class="p">:</span><span class="mi">6080</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="n">clas12simulations</span><span class="p">:</span><span class="n">iprod</span>
+</pre></div>
+</div>
+<p>Notice “bash” is no longer present at the end of the command line. This means that the docker image will start the X11 server instead, using the port 6080.</p>
+<p>We can connect to that port using the browser. Pont it at:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">6080</span>
+</pre></div>
+</div>
+<p>After connecting, you should see the image below on your browser.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/noVNC.png"><img alt="../../_images/noVNC.png" src="../../_images/noVNC.png" style="width: 50%;" /></a>
+</div>
+<p><br></p>
+<p>We’re now ready to rock’n’roll graphically.</p>
+<p><br></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p5.html"><img alt="../../_images/previous2.png" class="align-left" src="../../_images/previous2.png" /></a>
+<a class="reference external image-reference" href="p7.html"><img alt="../../_images/next2.png" class="align-right" src="../../_images/next2.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

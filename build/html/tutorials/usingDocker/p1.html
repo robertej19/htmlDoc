@@ -1,0 +1,174 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CLAS12 Docker Tutorial - 1/10 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clas12-docker-tutorial-1-10">
+<h1>CLAS12 Docker Tutorial  - <em>1/10</em><a class="headerlink" href="#clas12-docker-tutorial-1-10" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial you will learn how to use docker to run GEMC simulations and Coatjava reconstruction.</p>
+<p><br></p>
+<div class="section" id="installing-docker">
+<h2>Installing Docker<a class="headerlink" href="#installing-docker" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Mac users can download it <a class="reference external" href="https://www.docker.com/get-started">here</a>. Once installed, run the docker app. You should also have <a class="reference external" href="https://www.xquartz.org">XQuartz</a> installed.</li>
+<li>Linux users can install it using yum. Detailed instructions for Ubuntu can be found <a class="reference external" href="https://www.tutorialspoint.com/docker/installing_docker_on_linux.htm">at this page</a>.</li>
+</ul>
+<p><br></p>
+</div>
+<div class="section" id="running-docker-for-the-first-time">
+<h2>Running docker for the first time<a class="headerlink" href="#running-docker-for-the-first-time" title="Permalink to this headline">¶</a></h2>
+<p>Use the following command to run docker for the first time:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">rm</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="ss">clas12simulations</span><span class="p">:</span><span class="n">iprod</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>The very first time this will download the <em>clas12simulations</em> image. Since it’s about 4GB it may take a few minutes.
+You will see a log similar to this:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>Unable to find image &#39;jeffersonlab/clas12simulations:iprod&#39; locally
+production: Pulling from jeffersonlab/clas12simulations
+7dc0dca2b151: Downloading [===========&gt;                                       ]  17.19MB/74.69MB
+a1805b8a2cb4: Download complete
+0886abd70cd1: Downloading [=================&gt;                                 ]  45.73MB/133MB
+1453fd17ab86: Download complete
+73d8268b33b0: Download complete
+9322b8f9112a: Waiting
+71cda7b0682e: Waiting
+e93c82f68c47: Waiting
+03c4fd94d29e: Waiting
+8a0e45ac1b64: Waiting
+0a9d1d7412c1: Waiting
+</pre></div>
+</div>
+<p><br></p>
+<p>The image contains the necessary software to run simulation and reconstruction.</p>
+<ul class="simple">
+<li>gemc with the clas12 geometry</li>
+<li>CLARA</li>
+<li>Coatjava</li>
+<li>The CLAS12 magnetic fields</li>
+</ul>
+<p><br></p>
+<p>Once the download is complete, it will run the container. It will look like a normal shell:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>&gt; Common Environment Version: &lt;2.3&gt;  (Wed October 3 2018)
+&gt; Running as root on a5580672b83f
+&gt; OS Release:    Linux_CentOS7.5.1804-x86_64-gcc4.8.5
+&gt; JLAB_ROOT set to:     /jlab
+&gt; JLAB_SOFTWARE set to: /jlab/2.3/Linux_CentOS7.5.1804-x86_64-gcc4.8.5
+
+&gt; CCDB          version:  1.06.02
+&gt; CLHEP         version:  2.4.0.4
+&gt; GEANT4        version:  4.10.04.p02
+&gt; QT            using system installation
+&gt; XERCESC       version:  3.2.2
+&gt; GEMC          custom location:  /jlab/clas12Tags/4a.2.5/source
+&gt; EVIO          version:  5.1
+&gt; MLIBRARY      version:  1.3
+&gt; SCONS         version:  1.7
+</pre></div>
+</div>
+<p>You can type <cite>exit</cite> to quit this docker image.</p>
+<p><br></p>
+</div>
+<div class="section" id="the-second-time-you-re-running-docker">
+<h2>The second time you’re running docker<a class="headerlink" href="#the-second-time-you-re-running-docker" title="Permalink to this headline">¶</a></h2>
+<p>Once the download is completed, docker will run very fast. In fact it
+will feel like you’re just opening a new terminal. Running software inside the image
+is also not singificantly slower than running natively on the operating system.</p>
+<p>You should occasionally make sure your image is up-to-date:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">jeffersonlab</span><span class="o">/</span><span class="ss">clas12simulations</span><span class="p">:</span><span class="n">iprod</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>Congratulations, you are ready to rock and roll in the CLAS12 software glory.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p2.html"><img alt="../../_images/next2.png" class="align-right" src="../../_images/next2.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

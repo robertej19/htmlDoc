@@ -1,0 +1,172 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CLAS12 Docker Tutorial - 2/10 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clas12-docker-tutorial-2-10">
+<h1>CLAS12 Docker Tutorial  - <em>2/10</em><a class="headerlink" href="#clas12-docker-tutorial-2-10" title="Permalink to this headline">¶</a></h1>
+<p>While you’re downloading the image, let’s take a look at the docker command line:</p>
+<p><br></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/commandLine.png"><img alt="../../_images/commandLine.png" src="../../_images/commandLine.png" style="width: 80%;" /></a>
+</div>
+<p><br></p>
+<p><br></p>
+<p>The <strong>docker repository</strong> stores various images on the cloud.
+We have several images on “jeffersonlab” and jeffersonlab will be moved there shortly.
+Take a look at the <a class="reference external" href="https://hub.docker.com/u/jeffersonlab">Jefferson Lab repository of images</a>.</p>
+<p><br></p>
+<p><strong>clas12simulations</strong> is the image name. Throughout this tutorial we will use the “<strong>iprod</strong>” tag version.</p>
+<p><br></p>
+<div class="section" id="command-line-options">
+<h2>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+<p>We’re executing with the <strong>run</strong> directive and three options</p>
+<ul class="simple">
+<li>The <strong>-i</strong> option tells docker to keep the session <em>interactive</em></li>
+<li>The <strong>-t</strong> option tells docker use a text terminal emulator</li>
+</ul>
+<p>Both the above options are grouped to <strong>-it</strong>.</p>
+<p>If we do not give the <em>-it</em> option, the image will keep running in the background and we couldn’t CTRL+C out of it.
+On the other hand, if we keep it running, we can attach other “sessions” to it, see below.</p>
+<p><br></p>
+<p>The <strong>–rm</strong> option tell docker to remove the container from memory once we’re done with it.</p>
+<p><br></p>
+<p>The “<strong>bash</strong>” command at the end is what we want to run in the terminal. We could also use “tcsh”. In fact we could give any command here.
+Try “top”. Notice that when you quit the command (press “q” for “top”) docker exits.</p>
+<p><br></p>
+<p>We give a shell command here so the session stay interactive and we can issue commands just like we’re running a shell on our laptop.
+This is how we’ll run the generator, gemc, clara, etc.</p>
+<p><br>
+<br></p>
+</div>
+<div class="section" id="whats-inside-the-image-tag-iprod">
+<h2>Whats inside the image tag “iprod”<a class="headerlink" href="#whats-inside-the-image-tag-iprod" title="Permalink to this headline">¶</a></h2>
+<p>The image we’ll be using contains the software with the following tags:</p>
+<p><br></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/dockerContent.png"><img alt="../../_images/dockerContent.png" src="../../_images/dockerContent.png" style="width: 40%;" /></a>
+</div>
+<p><br></p>
+<p>This tag mechanism is very useful. We could tag this image “1.0” and forever be able to access it.
+10 years from now we can compare 3.9 with 1.0 and see all the progress we’be made.</p>
+<p><br>
+<br></p>
+</div>
+<div class="section" id="other-useful-docker-commands">
+<h2>Other useful docker commands<a class="headerlink" href="#other-useful-docker-commands" title="Permalink to this headline">¶</a></h2>
+<p>This command shows the running containers and their status:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">ps</span>
+</pre></div>
+</div>
+<p>gives:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>CONTAINER ID        IMAGE                                  COMMAND   CREATED        STATUS
+42aa50dccf88        jeffersonlab/clas12simulations:iprod   &quot;bash&quot;    4 seconds ago  Up 3 seconds
+</pre></div>
+</div>
+<p><br></p>
+<p>You could then remove a container (if it’s not running) using the CONTAINER ID</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">container</span> <span class="n">rm</span> <span class="mi">42</span><span class="n">aa50dccf88</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>It can be very useful to “attach” to a container session. You can do that by using the container ID:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="nb">exec</span> <span class="o">-</span><span class="n">it</span> <span class="mi">42</span><span class="n">aa50dccf88</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>You could leave a container running for how long you need it, and simply attach to it.
+This is effectively like running a second OS and opening shells inside of it.</p>
+<p><br>
+<br></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p1.html"><img alt="../../_images/previous2.png" class="align-left" src="../../_images/previous2.png" /></a>
+<a class="reference external image-reference" href="p3.html"><img alt="../../_images/next2.png" class="align-right" src="../../_images/next2.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

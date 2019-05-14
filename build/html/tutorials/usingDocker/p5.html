@@ -1,0 +1,143 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CLAS12 Docker Tutorial - 5/10 &#8212; clas12softwarePage 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/mauri.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body>
+<div class="header-wrapper" role="banner">
+	<div class="header">
+		<div class="headertitle"> CLAS12 Simulation Software Distribution </div>
+		
+		<div class="rel" role="navigation" aria-label="related navigation">
+			
+			<a href="../../index.html">       home</a>&nbsp;|
+			<a href="../../examples.html">    examples</a>&nbsp;
+			
+		</div>
+
+		<div class="clearer"></div>
+		
+		
+	</div>
+</div>
+
+<div class="content-wrapper">
+	<div class="content">
+		<div class="document">
+			
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="clas12-docker-tutorial-5-10">
+<h1>CLAS12 Docker Tutorial  - <em>5/10</em><a class="headerlink" href="#clas12-docker-tutorial-5-10" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="running-the-decoder">
+<h2>Running the decoder<a class="headerlink" href="#running-the-decoder" title="Permalink to this headline">¶</a></h2>
+<p>The evio file needs to be decoded and saved into hipo format in order to be used by reconstruction. This is easy to do:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">evio2hipo</span> <span class="o">-</span><span class="n">r</span> <span class="mi">11</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span><span class="n">i</span> <span class="n">out</span><span class="o">.</span><span class="n">ev</span> <span class="o">-</span><span class="n">o</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>Here, you can see we’re giving the options:</p>
+<ul class="simple">
+<li>run number 11</li>
+<li>torus and solenoid scales of -1</li>
+<li>input file name: out.ev (the output of gemc)</li>
+<li>output file name: gemc.hipo</li>
+</ul>
+</div>
+<div class="section" id="running-clara">
+<h2>Running CLARA<a class="headerlink" href="#running-clara" title="Permalink to this headline">¶</a></h2>
+<p>The utility script <strong>createClaraCook.csh</strong> is provided to create a <strong>cook.clara</strong> configuration file to run reconstruction within the CLARA framework:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span>
+<span class="o">&gt;&gt;</span> <span class="n">createClaraCook</span> <span class="o">&lt;</span><span class="n">inputfilename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">nthreads</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>inputfilename is what we just created: gemc.hipo</li>
+<li>nthreads is how many threads you want to run CLARA on. Most modern computer have at least two cores so let’s use 2. If you know you have more, use that number</li>
+</ul>
+<p>Let’s run createClaraCook.csh like this:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">createClaraCook</span><span class="o">.</span><span class="n">csh</span> <span class="n">gemc</span><span class="o">.</span><span class="n">hipo</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>We’re ready to run CLARA and the CLAS12 reconstruction code (aka COATJAVA):</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="n">clara</span><span class="o">-</span><span class="n">shell</span> <span class="n">cook</span><span class="o">.</span><span class="n">clara</span>
+</pre></div>
+</div>
+<p><br></p>
+<p>The output file is called <strong>out_gemc.hipo</strong>.
+Since we’re running in interactive mode, it contains all the banks (so it’s quite big) so we can enjoy the complete information from simulation and reconstruction.</p>
+<p>Run hipo-utils to check the bank information on the reconstructed file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hipo</span><span class="o">-</span><span class="n">utils</span> <span class="o">-</span><span class="n">stats</span> <span class="n">out_gemc</span><span class="o">.</span><span class="n">hipo</span>
+</pre></div>
+</div>
+<p>The CLARA log is created within the log directory, take a look.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference external image-reference" href="p4.html"><img alt="../../_images/previous2.png" class="align-left" src="../../_images/previous2.png" /></a>
+<a class="reference external image-reference" href="p6.html"><img alt="../../_images/next2.png" class="align-right" src="../../_images/next2.png" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+		</div>
+		<div class="sidebar">
+			<div role="search">
+				<h3 style="margin-top: 1.5em;">Search</h3>
+				<form class="search" action="../../search.html" method="get">
+					<input type="text" name="q" />
+					<input type="submit" value="Go" />
+					<input type="hidden" name="check_keywords" value="yes" />
+					<input type="hidden" name="area" value="default" />
+				</form>
+				<p class="searchtip" style="font-size: 90%">
+				Search within this website.
+				</p>
+			</div>
+			<br>
+			
+			<br>
+			
+		</div>
+		<div class="clearer"></div>
+	</div>
+</div>
+
+<div class="footer-wrapper">
+	<div class="footer">
+		<div class="center">
+			2019 Page Maintained by Maurizio Ungaro
+		</div>
+	</div>
+</div>
+
+  </body>
+</html>

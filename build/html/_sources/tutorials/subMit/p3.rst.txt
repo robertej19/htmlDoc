@@ -1,0 +1,62 @@
+:orphan:
+
+
+.. |br| raw:: html
+
+   <br>
+
+========================================================
+Submit a Job to OSG Tutorial - *3/4*
+========================================================
+
+
+
+|br|
+
+Example 2: Steering card for DVCS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  group:  rga                      # project description
+  user:  mungaro                   # username
+  nevents: 100                     # number of events each job
+  generator:   dvcsgen             # one of clasdis, dvcsgen, generate-dis
+  genOptions:  --th 0.087 0.52     # generator option
+  gcards: /jlab/work/clas12.gcard  # gcard
+  jobs: 5                          # number of jobs
+  project:  osg.clas12MC           # OSG project
+  luminosity:  0                   # percent of 10^35 luminosity from 0 to 100
+  tcurrent: -100                   # percent of torus current from -100 to 100
+  pcurrent: -100                   # percent of solenoid current from -100 to 100
+
+
+|br|
+
+Generator options
+^^^^^^^^^^^^^^^^^^^^
+
+DVCS generator documentation: https://github.com/JeffersonLab/dvcsgen/blob/master/README.md
+
+Generator options can be added at "genOptions" at the scard.
+
+|br|
+
+
+Job submission
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Edit your scard as above and use the following command to submit 5 jobs of 100 DVCS events each with theta between 5 and 30 degrees (0.087 to 0.52 radians).::
+
+  /group/clas12/offsite-simulations/submit.py -s scard.txt
+
+
+|
+
+.. image:: ../previous.png
+	:target: 	p2.html
+	:align: left
+
+.. image:: ../next.png
+	:target: 	p4.html
+	:align: right
