@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Production (currently 1.1)" href="tags/tags.html" />
+    <link rel="next" title="Production (currently 1.2)" href="tags/tags.html" />
     <link rel="prev" title="Quickstart: Docker" href="index.html" /> 
   </head>
   <body>
@@ -127,11 +127,13 @@ You can use the option:</p>
 to visualize a subset of the CLAS12 detectors, not all of them.</p>
 <p><br></p>
 </div>
-<div class="section" id="generators">
-<span id="runninggemcgenerator"></span><h1>Generators<a class="headerlink" href="#generators" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="using-generators">
+<span id="runninggemcgenerator"></span><h1>Using Generators<a class="headerlink" href="#using-generators" title="Permalink to this headline">¶</a></h1>
 <p>Run the container in batch mode (substitute the max’s path with your home dir path)</p>
 <blockquote>
 <div>docker run -it –rm  -v /home/max:/jlab/work/max jeffersonlab/clas12simulations:iprod bash</div></blockquote>
+<p>Find below the ways to generate events.</p>
+<p><br></p>
 <div class="section" id="use-the-internal-generator">
 <h2>Use the internal generator<a class="headerlink" href="#use-the-internal-generator" title="Permalink to this headline">¶</a></h2>
 <p>Use the clas12.gcard in /jlab/workdir to launch gemc. For example, to run 200 events in batch mode using 4 GeV electrons at theta=20 degrees and phi=5 degrees:</p>
@@ -149,6 +151,11 @@ generated events in a <a class="reference external" href="https://gemc.jlab.org/
 </pre></div>
 </div>
 <p>This will produce an output with 200 generated events in evio format.</p>
+<p><br></p>
+</div>
+<div class="section" id="using-the-available-generators-inside-the-container">
+<h2>Using the available generators inside the container<a class="headerlink" href="#using-the-available-generators-inside-the-container" title="Permalink to this headline">¶</a></h2>
+<p>Please see the <a class="reference internal" href="generators.html#generators"><span class="std std-ref">generators</span></a> list and documentation on the command line options.</p>
 <p><br></p>
 </div>
 </div>

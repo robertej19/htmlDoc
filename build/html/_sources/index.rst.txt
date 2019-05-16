@@ -46,7 +46,7 @@ Container content
 
 The clas12simulations docker image contains:
 
-- "deep" generators: generate-dis, dvcsgen generator executables
+- various :ref:`generators <generators>` 
 - gemc with the clas12 geometry
 - CLARA
 - Coatjava

@@ -105,12 +105,16 @@ to visualize a subset of the CLAS12 detectors, not all of them.
 
 .. _runningGEMCGenerator:
 
-Generators
-==========
+Using Generators
+================
 
 Run the container in batch mode (substitute the max's path with your home dir path)
 
  docker run -it --rm  -v /home/max:/jlab/work/max jeffersonlab/clas12simulations:iprod bash
+
+Find below the ways to generate events.
+
+|br|
 
 Use the internal generator
 --------------------------
@@ -133,6 +137,15 @@ generated events in a `lund file <https://gemc.jlab.org/gemc/html/documentation/
 This will produce an output with 200 generated events in evio format.
 
 |br|
+
+
+Using the available generators inside the container
+---------------------------------------------------
+
+Please see the :ref:`generators <generators>` list and documentation on the command line options.
+
+|br|
+
 
 .. _runningevio2hipoExample:
 
